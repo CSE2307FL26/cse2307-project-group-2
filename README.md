@@ -4,7 +4,7 @@
 
 * Alexander Yang
 * Eric Zhuang
-* Lucas Olmeda
+* Lucas Olmeta
 
 ## User stories
 
