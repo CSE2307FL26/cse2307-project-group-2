@@ -2,9 +2,9 @@
 
 ## Team Members:
 
-* 
-* 
-* 
+* Alexander Yang
+* Eric Zhuang
+* Lucas Olmeda
 * 
 
 ## User stories
