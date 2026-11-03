@@ -5,7 +5,7 @@ import main.BankAccount;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue; 
 import static org.junit.jupiter.api.Assertions.assertFalse; 
-import static org.junit.jupiter.api.Assertions.fail; 
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
 
@@ -118,6 +118,18 @@ public class BankAccountTest {
             testAccount.withdraw(150);
             fail();
         } catch (IllegalArgumentException e) {
+            //do nothing, test passes
+        }
+    }
+
+    @Test 
+    public void testWithdrawFromClosedAccountFails() {
+        BankAccount testAccount = new BankAccount(); 
+        testAccount.closeAccount(); 
+        try {
+            testAccount.withdraw(150);
+            fail();
+        } catch (IllegalStateException e) {
             //do nothing, test passes
         }
     }
