@@ -37,8 +37,10 @@ public class BankAccount {
 
     public boolean getIsClosed() {
         return this.isClosed; 
-      
+    }
+
     public void withdraw(double amount) {
+        requireOpen();
         if(amount > 0 && amount <= this.balance) {
             this.balance -= amount;
         } else {
