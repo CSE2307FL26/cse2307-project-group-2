@@ -133,4 +133,62 @@ public class BankAccountTest {
             //do nothing, test passes
         }
     }
+
+    @Test
+    public void testTransfer() {
+        BankAccount fromAccount = new BankAccount();
+        BankAccount toAccount = new BankAccount();
+        fromAccount.deposit(100);
+        toAccount.deposit(20);
+
+        fromAccount.transfer(toAccount, 40);
+
+        assertEquals(60, fromAccount.getBalance(), 0.01);
+        assertEquals(60, toAccount.getBalance(), 0.01);
+    }
+    
+    @Test
+    public void testTransferWithInsufficientFundsFails() {
+        BankAccount fromAccount = new BankAccount();
+        BankAccount toAccount = new BankAccount();
+        fromAccount.deposit(50);
+        try {
+            fromAccount.transfer(toAccount, 75);
+            fail();
+        } catch (IllegalArgumentException e) {
+            //do nothing, test passes
+        }
+        assertEquals(50, fromAccount.getBalance(), 0.01);
+        assertEquals(0, toAccount.getBalance(), 0.01);
+    }
+
+    @Test
+    public void testTransferFromClosedAccountFails() {
+        BankAccount fromAccount = new BankAccount();
+        BankAccount toAccount = new BankAccount();
+        fromAccount.deposit(100);
+        fromAccount.closeAccount();
+        try {
+            fromAccount.transfer(toAccount, 40);
+            fail();
+        } catch (IllegalStateException e) {
+            //do nothing, test passes
+        }
+        assertEquals(0, toAccount.getBalance(), 0.01);
+    }
+
+    @Test
+    public void testTransferToClosedAccountFails() {
+        BankAccount fromAccount = new BankAccount();
+        BankAccount toAccount = new BankAccount();
+        fromAccount.deposit(100);
+        toAccount.closeAccount();
+        try {
+            fromAccount.transfer(toAccount, 40);
+            fail();
+        } catch (IllegalStateException e) {
+            //do nothing, test passes
+        }
+        assertEquals(100, fromAccount.getBalance(), 0.01);
+    }
 }

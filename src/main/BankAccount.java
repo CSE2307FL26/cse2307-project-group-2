@@ -47,4 +47,13 @@ public class BankAccount {
             throw new IllegalArgumentException();
         }
     }
+
+    public void transfer(BankAccount destination, double amount) {
+        requireOpen();
+        if (destination.getIsClosed()) {
+            throw new IllegalStateException("Account is closed");
+        }
+        this.withdraw(amount);
+        destination.deposit(amount);
+    }
 }
