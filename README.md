@@ -28,7 +28,9 @@
 * Story 7: Transfer money between accounts (Lucas, #6)
 
 ## What user stories do you intend to complete next iteration?
-
+8. A bank administrator should be able to collect fees from existing accounts when necessary.
+9. A bank administrator should be able to add an interest payment to an existing account when necessary.
+    
 ## Is there anything that you implemented but doesn't currently work?
 1. Accounts only exist while the app is running. Nothing is saved after you exit.
 
