@@ -18,6 +18,15 @@
 8. A bank administrator should be able to collect fees from existing accounts when necessary.
 9. A bank administrator should be able to add an interest payment to an existing account when necessary.
 
+## What user stories were completed this iteration?
+
+* Story 2: Withdraw from an account (Alex, #1)
+* Story 3: Check the balance of any account (Eric, #2)
+* Story 4: View an account's transaction history (Lucas, #5)
+* Story 5: Create an additional account (Alex, #3)
+* Story 6: Close an existing account (Eric, #4)
+* Story 7: Transfer money between accounts (Lucas, #6)
+
 ## What user stories do you intend to complete next iteration?
 
 ## Is there anything that you implemented but doesn't currently work?

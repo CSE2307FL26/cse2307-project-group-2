@@ -1,13 +1,19 @@
 package main;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class BankAccount {
 
     private double balance;
-    private boolean isClosed; 
+    private boolean isClosed;
+    private final List<String> transactionHistory;
 
     public BankAccount() {
         this.balance = 0; 
-        this.isClosed = false; 
+        this.isClosed = false;
+        this.transactionHistory = new ArrayList<>();
     }
 
     private void requireOpen() {
@@ -20,6 +26,7 @@ public class BankAccount {
         requireOpen();
         if(amount > 0) {
             this.balance += amount;
+            this.transactionHistory.add("Deposit: " + amount);
         } else {
             throw new IllegalArgumentException();
         }
@@ -43,11 +50,17 @@ public class BankAccount {
         requireOpen();
         if(amount > 0 && amount <= this.balance) {
             this.balance -= amount;
+            this.transactionHistory.add("Withdraw: " + amount);
         } else {
             throw new IllegalArgumentException();
         }
     }
 
+    public List<String> getTransactionHistory() {
+        requireOpen();
+        return Collections.unmodifiableList(this.transactionHistory);
+    }
+    
     public void transfer(BankAccount destination, double amount) {
         requireOpen();
         if (destination.getIsClosed()) {
