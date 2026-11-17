@@ -26,10 +26,10 @@
 * Story 7: Transfer money between accounts (Lucas, #6)
 
 ## What user stories do you intend to complete next iteration?
-8. A bank administrator should be able to collect fees from existing accounts when necessary. (Lucas)
-9. A bank administrator should be able to add an interest payment to an existing account when necessary. (Lucas)
-10. A bank customer should be able to create a user profile with a username and password. (Alex)
-11. A bank customer should be able to log in with their username and password and see only their own accounts. (Alex)
+8. A bank administrator should be able to collect fees from existing accounts when necessary. (Alex)
+9. A bank administrator should be able to add an interest payment to an existing account when necessary. (Alex)
+10. A bank customer should be able to create a user profile with a username and password. (Lucas)
+11. A bank customer should be able to log in with their username and password and see only their own accounts. (Lucas)
 12. A bank administrator should be able to view a list of all customers and the balance of each of their accounts. (Eric)
 13. A bank customer should be able to close the app and still have all of their accounts, balances, and transaction history the next time they open it. (Eric)
 
