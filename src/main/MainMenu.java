@@ -1,19 +1,26 @@
 package main;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class MainMenu {
 
-    private static final int EXIT_SELECTION = 9;
-	private static final int MAX_SELECTION = 9;
+    private static final int EXIT_SELECTION = 10;
+	private static final int MAX_SELECTION = 10;
+    private static final String SAVE_FILE = "bank.json";
 
 	private BankAccount userAccount;
+    private Bank bank; 
     private Customer customer;
     private Scanner keyboardInput;
 
     public MainMenu() {
-        this.customer = new Customer("Customer");
-        this.userAccount = customer.createAccount();
+        this.bank = Bank.load(SAVE_FILE);
+        if (bank.getNumberOfCustomers() == 0) {
+            bank.addCustomer("Customer").createAccount();
+        }
+        this.customer = bank.getCustomer(0);
+        this.userAccount = customer.getAccount(0);
         this.keyboardInput = new Scanner(System.in);
     }
 
@@ -28,7 +35,8 @@ public class MainMenu {
         System.out.println("6. Switch accounts");
         System.out.println("7. Close this account");
         System.out.println("8. Transfer to another account");
-        System.out.println("9. Exit the app");
+        System.out.println("9. View all customers and balances (administrator)"); 
+        System.out.println("10. Exit the app");
 
     }
 
@@ -71,6 +79,9 @@ public class MainMenu {
             case 8:
                 transferMoney();
                 break;
+            case 9: 
+                viewAllCustomers(); 
+                break; 
         }
     }
 
@@ -96,13 +107,25 @@ public class MainMenu {
     }
 
     public void viewBalances() {
-        for (int i = 0; i < customer.getNumberOfAccounts(); i++) {
-            BankAccount account = customer.getAccount(i);
+        viewBalances(customer); 
+    }
+
+    public void viewBalances(Customer owner) {
+        for (int i = 0; i < owner.getNumberOfAccounts(); i++) {
+            BankAccount account = owner.getAccount(i);
             if (account.getIsClosed()) {
                 System.out.println("Account " + (i + 1) + ": closed");
             } else {
                 System.out.println("Account " + (i + 1) + ": $" + account.getBalance());
             }
+        }
+    }
+
+    public void viewAllCustomers() {
+        for (int i = 0; i < bank.getNumberOfCustomers(); i++) {
+            Customer owner = bank.getCustomer(i); 
+            System.out.println(owner.getName() + ":"); 
+            viewBalances(owner);
         }
     }
 
@@ -135,6 +158,14 @@ public class MainMenu {
         }
     }
 
+    public void saveBank() {
+        try {
+            bank.save(SAVE_FILE);
+        } catch (IOException e) {
+            System.out.println("Could not save your accounts.");
+        }
+    }
+
     public void run() {
         int selection = -1;
         while(selection != EXIT_SELECTION) {
@@ -147,6 +178,7 @@ public class MainMenu {
             } catch (IllegalArgumentException e) {
                 System.out.println("You don't have enough money in this account.");
             }
+            saveBank(); 
         }
     }
 
