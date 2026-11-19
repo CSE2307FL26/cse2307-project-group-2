@@ -5,9 +5,14 @@ import main.Customer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.io.IOException;
+import java.nio.file.Path;
+
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 public class BankTest {
 
@@ -53,5 +58,28 @@ public class BankTest {
         } catch (IndexOutOfBoundsException e) {
             // do nothing, test passes
         }
+    }
+
+    @Test
+    public void testSaveAndLoadKeepsAccounts(@TempDir Path folder) throws IOException {
+        String fileName = folder.resolve("bank.json").toString();
+        Bank bank = new Bank();
+        Customer eric = bank.addCustomer("Eric");
+        eric.createAccount().deposit(50);
+        eric.createAccount().closeAccount();
+        bank.save(fileName);
+
+        Customer loaded = Bank.load(fileName).getCustomer(0);
+
+        assertEquals("Eric", loaded.getName());
+        assertEquals(50, loaded.getAccount(0).getBalance(), 0.01);
+        assertEquals("Deposit: 50.0", loaded.getAccount(0).getTransactionHistory().get(0));
+        assertTrue(loaded.getAccount(1).getIsClosed());
+    }
+
+    @Test
+    public void testLoadWithNoSaveFileStartsEmpty(@TempDir Path folder) {
+        Bank bank = Bank.load(folder.resolve("missing.json").toString());
+        assertEquals(0, bank.getNumberOfCustomers());
     }
 }

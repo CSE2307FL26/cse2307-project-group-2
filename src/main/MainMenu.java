@@ -1,11 +1,13 @@
 package main;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class MainMenu {
 
     private static final int EXIT_SELECTION = 10;
 	private static final int MAX_SELECTION = 10;
+    private static final String SAVE_FILE = "bank.json";
 
 	private BankAccount userAccount;
     private Bank bank; 
@@ -13,9 +15,12 @@ public class MainMenu {
     private Scanner keyboardInput;
 
     public MainMenu() {
-        this.bank = new Bank(); 
-        this.customer = bank.addCustomer("Customer"); 
-        this.userAccount = customer.createAccount();
+        this.bank = Bank.load(SAVE_FILE);
+        if (bank.getNumberOfCustomers() == 0) {
+            bank.addCustomer("Customer").createAccount();
+        }
+        this.customer = bank.getCustomer(0);
+        this.userAccount = customer.getAccount(0);
         this.keyboardInput = new Scanner(System.in);
     }
 
@@ -153,6 +158,14 @@ public class MainMenu {
         }
     }
 
+    public void saveBank() {
+        try {
+            bank.save(SAVE_FILE);
+        } catch (IOException e) {
+            System.out.println("Could not save your accounts.");
+        }
+    }
+
     public void run() {
         int selection = -1;
         while(selection != EXIT_SELECTION) {
@@ -165,6 +178,7 @@ public class MainMenu {
             } catch (IllegalArgumentException e) {
                 System.out.println("You don't have enough money in this account.");
             }
+            saveBank(); 
         }
     }
 
